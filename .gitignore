@@ -1,0 +1,4 @@
+.vscode/
+begin.cpp
+test.cpp
+*.exe
