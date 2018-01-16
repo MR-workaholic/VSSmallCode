@@ -2,3 +2,4 @@
 begin.cpp
 test.cpp
 *.exe
+data.in
