@@ -1,4 +1,4 @@
-/* 
+/*
 data.in
 70 12 234 31 43 21 56 31 45 65 321 5 65 423 645 45 32
 23 43 321 342
@@ -23,7 +23,7 @@ struct BinarySearchTreeNode{
     ElementType _val;
     Tree _left;
     Tree _right;
-    BinarySearchTreeNode(ElementType x) : 
+    BinarySearchTreeNode(ElementType x) :
     _val(x),
     _left(nullptr),
     _right(nullptr)
@@ -100,7 +100,7 @@ void inorderTraversal(Tree tree){
         {
             if (!tempSta.empty())
             {
-                tree = tempSta.top();                
+                tree = tempSta.top();
             }
             // tempSta.pop();
         }
@@ -210,7 +210,7 @@ Tree rDelete(Tree tree, ElementType x){
     {
         tree->_right = rDelete(tree->_right, x);
     }else
-    {
+    {  // 分三种情况，叶子节点，有一个孩子节点与有两个孩子节点
         if (tree->_left == nullptr && tree->_right == nullptr)
         {
             delete tree;
@@ -227,6 +227,26 @@ Tree rDelete(Tree tree, ElementType x){
             delete temp;
         }
         return tree;
+    }
+}
+
+Pos rFindLowerBound(Tree tree, ElementType x){ // 找出大于等于给定值的位置
+    if (tree == nullptr || tree->_val == x)
+    {
+        return tree;
+    }else if (tree->_val < x)
+    {
+        return rFindLowerBound(tree->_right, x);
+    }else
+    {
+        Pos temp = FindMax(tree->_left);
+        if (temp == nullptr || temp->_val < x)
+        {
+            return tree;
+        }else
+        {
+            return rFindLowerBound(tree->_left, x);
+        }
     }
 }
 
@@ -256,7 +276,9 @@ int main(int argc, char **argv){
     getline(cin, input);
     iss = istringstream(input);
     while(iss >> temp){
-        cout << temp << " : " << (Find(myTree, temp) ? "true" : "false") << endl;
+        // cout << temp << " : " << (Find(myTree, temp) ? "true" : "false") << endl;
+        Pos result = rFindLowerBound(myTree, temp);
+        cout << temp << " : " << (result == nullptr ? "no" : "is " + to_string(result->_val)) << endl;
     }
 
     cout << "Max is " << rFindMax(myTree)->_val << endl;
@@ -277,8 +299,8 @@ int main(int argc, char **argv){
         }
     }
 
-        
-    
+
+
     rMakeEnpty(myTree);
     cin >> temp;
 }
