@@ -1,3 +1,11 @@
+/*
+4 5 1 6 2 7 2 8
+2
+4 5 1 6 2 7 3 8
+1
+4 5 1 6 2 7 3 8
+4
+ */
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -27,7 +35,7 @@ vector<int> GetLeastNumbers_Solution(vector<int> input, int k) {
     }
 
     int start = 0, end = len - 1, mid;
-    while (start  < end)
+    while (true)
     {
         mid = start + ((end - start) >> 1);
         size_t b1 = input.at(start) > input.at(end) ? start : end;
@@ -64,13 +72,7 @@ vector<int> GetLeastNumbers_Solution(vector<int> input, int k) {
         }
     }
 
-    vector<int> result;
-    for (size_t i = start; i <= end; i++)
-    {
-        result.push_back(input.at(i));
-    }
 
-    return result;
 }
 
 int main(int argc, char ** argv){
