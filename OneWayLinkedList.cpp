@@ -1,4 +1,4 @@
-/* 
+/*
 头结点带数据
  */
 #include <iostream>
@@ -12,7 +12,7 @@ struct ListNode;
 typedef size_t ElementType;
 typedef ListNode Node;
 typedef Node* Pos;
-typedef Node* List; 
+typedef Node* List;
 
 struct ListNode
 {
@@ -164,9 +164,9 @@ List rReverse1(List* headPtr){  //递归，后缀操作，一般递归就不用二级指针
     {
         return *headPtr;
     }
-    
+
     List head = rReverse1(&((*headPtr)->_next));
-    
+
     (*headPtr)->_next->_next = *headPtr;
     (*headPtr)->_next = nullptr;
 
@@ -185,6 +185,70 @@ List rReverse2(List head){
     return newHead;
 }
 
+List Merge(List pHead1, List pHead2){ // 有序链表的合并
+    if (pHead1 == NULL)
+    {
+        return pHead2;
+    }else if (pHead2 == NULL)
+    {
+        return pHead1;
+    }
+    List result, p1, p2;
+    if(pHead1->_val < pHead2->_val){
+        result = pHead1;
+        p1 = pHead1;
+        p2 = pHead2;
+    }else
+    {
+        result = pHead2;
+        p1 = pHead2;
+        p2 = pHead1;
+    }
+    while (p1->_next != NULL && p2 != NULL)
+    {
+        if (p1->_next->_val > p2->_val)
+        {
+            List temp = p2->_next;
+            p2->_next = p1->_next;
+            p1->_next = p2;
+            p2 = temp;
+        }else
+        {
+            p1 = p1->_next;
+        }
+
+    }
+
+    if (p1->_next == NULL)
+    {
+        p1->_next = p2;
+    }
+
+    return result;
+}
+
+List rMerge(List pHead1, List pHead2){
+    if (pHead1 == NULL)
+    {
+        return pHead2;
+    }else if (pHead2 == NULL)
+    {
+        return pHead1;
+    }
+
+    List pNewHead = NULL;
+    if (pHead1->_val < pHead2->_val)
+    {
+        pNewHead = pHead1;
+        pNewHead->_next = rMerge(pHead1->_next, pHead2);
+    }else
+    {
+        pNewHead = pHead2;
+        pNewHead->_next = rMerge(pHead1, pHead2->_next);
+    }
+
+    return pNewHead;
+}
 
 int main(int argc, char ** argv){
     streambuf* backup;
@@ -192,6 +256,30 @@ int main(int argc, char ** argv){
     fstream fin;
     fin.open("data.in");
     cin.rdbuf(fin.rdbuf());
+
+    // 有序链表合并的测试
+    /* string inputline4test;
+    ElementType temp4test;
+    istringstream iss4test;
+    getline(cin, inputline4test);
+    iss4test = istringstream(inputline4test);
+    List sortedList1 = NULL, sortedList2=NULL;
+    while (iss4test >> temp4test)
+    {
+        InsertToTail(&sortedList1, temp4test);
+    }
+    getline(cin, inputline4test);
+    iss4test = istringstream(inputline4test);
+    while (iss4test >> temp4test)
+    {
+        InsertToTail(&sortedList2, temp4test);
+    }
+    PrintList(sortedList1);
+    PrintList(sortedList2);
+    List result = rMerge(sortedList1, sortedList2);
+    PrintList(result);
+ */
+    //
 
     List head = nullptr;
 
