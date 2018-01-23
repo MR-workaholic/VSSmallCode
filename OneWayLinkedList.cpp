@@ -5,6 +5,8 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <unordered_set>
+#include <stack>
 
 using namespace std;
 
@@ -250,6 +252,117 @@ List rMerge(List pHead1, List pHead2){
     return pNewHead;
 }
 
+Pos FindFirstCommonNodeWithSet(List pHead1, List pHead2){
+    if (pHead1 == nullptr || pHead2 == nullptr)
+    {
+        return nullptr;
+    }
+    unordered_set<Pos> record;
+    auto p = pHead1;
+    while (p != nullptr)
+    {
+        record.insert(p);
+        p = p->_next;
+    }
+    p = pHead2;
+    while (p != nullptr)
+    {
+        if (record.find(p) != record.end() && p != nullptr)
+        {
+            return p;
+        }
+        p = p->_next;
+    }
+    return nullptr;
+}
+
+Pos FindFirstCommonNodeWithStack(List pHead1, List pHead2){
+    if (pHead1 == nullptr || pHead2 == nullptr)
+    {
+        return nullptr;
+    }
+    Pos p = pHead1;
+    stack<Pos> sta1;
+    while (p != nullptr)
+    {
+        sta1.push(p);
+        p = p->_next;
+    }
+
+    p = pHead2;
+    stack<Pos> sta2;
+    while (p != nullptr)
+    {
+        sta2.push(p);
+        p = p->_next;
+    }
+
+    Pos result(nullptr);
+    while (sta1.top() == sta2.top())
+    {
+        result = sta1.top();
+        sta1.pop();
+        sta2.pop();
+        if (sta1.empty() || sta2.empty())
+        {
+            break;
+        }
+    }
+    return result;
+
+
+}
+
+Pos FindFirstCommonNodeWithCounter(List pHead1, List pHead2){
+     if (pHead1 == nullptr || pHead2 == nullptr)
+    {
+        return nullptr;
+    }
+    int counter1(0);
+    Pos p = pHead1;
+    while (p != nullptr)
+    {
+        counter1++;
+        p = p->_next;
+    }
+
+    int counter2(0);
+    p = pHead2;
+    while (p != nullptr)
+    {
+        counter2++;
+        p = p->_next;
+    }
+
+    Pos p1 = pHead1;
+    Pos p2 = pHead2;
+    if (counter1 > counter2)
+    {
+        int counter = counter1 - counter2;
+        while (counter--)
+        {
+            p1 = p1->_next;
+        }
+    }else
+    {
+        int counter = counter2 - counter1;
+        while (counter--)
+        {
+            p2 = p2->_next;
+        }
+    }
+    while (p1 != p2)
+    {
+        p1 = p1->_next;
+        p2 = p2->_next;
+        if (p1 == nullptr || p2 == nullptr)
+        {
+            return nullptr;
+        }
+    }
+    return p1;
+}
+
 int main(int argc, char ** argv){
     streambuf* backup;
     backup = cin.rdbuf();
@@ -279,6 +392,43 @@ int main(int argc, char ** argv){
     List result = rMerge(sortedList1, sortedList2);
     PrintList(result);
  */
+    //
+
+    // 寻找公共节点测试
+    string inputline4test;
+    ElementType temp4test;
+    istringstream iss4test;
+    getline(cin, inputline4test);
+    iss4test = istringstream(inputline4test);
+    List List1 = NULL, List2=NULL;
+    while (iss4test >> temp4test)
+    {
+        InsertToTail(&List1, temp4test);
+    }
+    getline(cin, inputline4test);
+    iss4test = istringstream(inputline4test);
+    while (iss4test >> temp4test)
+    {
+        InsertToTail(&List2, temp4test);
+    }
+    getline(cin, inputline4test);
+    iss4test = istringstream(inputline4test);
+    iss4test >> temp4test;
+    Pos q = Find(List1, temp4test);
+    if (q && List2)
+    {
+        List p = List2;
+        while (p->_next != nullptr)
+        {
+            p = p->_next;
+        }
+        p->_next = q;
+    }
+    PrintList(List1);
+    PrintList(List2);
+    Pos res = FindFirstCommonNodeWithCounter(List1, List2);
+    PrintList(res);
+
     //
 
     List head = nullptr;
