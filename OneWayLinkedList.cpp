@@ -363,6 +363,81 @@ Pos FindFirstCommonNodeWithCounter(List pHead1, List pHead2){
     return p1;
 }
 
+List deleteDuplication(List pHead)
+{
+    if (pHead == nullptr)
+    {
+        return pHead;
+    }
+    Pos curIndex = pHead;
+    Pos preIndex = nullptr;
+    Pos changeIndex = pHead;
+    ElementType deleteVal(0);
+    bool isNull(true);
+    while (curIndex != nullptr)
+    {
+        if (preIndex == nullptr)
+        {
+            preIndex = curIndex;
+            curIndex = curIndex->_next;
+            continue;
+        }
+        if (preIndex->_val == curIndex->_val)
+        {
+            deleteVal = preIndex->_val;
+            // changeIndex = preIndex;
+            while (preIndex != nullptr && preIndex->_val == deleteVal)
+            {
+                preIndex = preIndex->_next;
+            }
+            if (preIndex == nullptr)
+            {
+                break;
+            }
+            // changeIndex->_val = preIndex->_val;
+            curIndex = preIndex->_next;
+            continue;
+        }
+        if (preIndex->_val != curIndex->_val)
+        {
+            isNull = false;
+            changeIndex->_val = preIndex->_val;
+            changeIndex = changeIndex->_next;
+            preIndex = curIndex;
+            curIndex = curIndex->_next;
+        }
+    }
+
+    Pos deleteNode;
+    if (preIndex != nullptr)
+    {
+        changeIndex->_val = preIndex->_val;
+        deleteNode = changeIndex->_next;
+        changeIndex->_next = nullptr;
+    }else
+    {
+        deleteNode = changeIndex;
+        if (!isNull)
+        {
+            for (curIndex = pHead; curIndex->_next != deleteNode; curIndex = curIndex->_next);
+            curIndex->_next = nullptr;
+        }else
+        {
+            pHead = nullptr;
+        }
+    }
+
+    while (deleteNode != nullptr)
+    {
+        Pos temp = deleteNode;
+        deleteNode = deleteNode->_next;
+        delete temp;
+        temp = nullptr;
+    }
+
+    return pHead;
+}
+
 int main(int argc, char ** argv){
     streambuf* backup;
     backup = cin.rdbuf();
@@ -395,7 +470,7 @@ int main(int argc, char ** argv){
     //
 
     // 寻找公共节点测试
-    string inputline4test;
+/*     string inputline4test;
     ElementType temp4test;
     istringstream iss4test;
     getline(cin, inputline4test);
@@ -428,8 +503,29 @@ int main(int argc, char ** argv){
     PrintList(List2);
     Pos res = FindFirstCommonNodeWithCounter(List1, List2);
     PrintList(res);
-
+ */
     //
+
+    // 删除链表中的重复节点
+    // 1 1 2 2 3 3
+    // 1 1 2 2 3 4 5 5
+    // 1 2 3 4 5
+    // 1 2 3 3 4 4 5
+/*     string inputline4test;
+    ElementType temp4test;
+    istringstream iss4test;
+    getline(cin, inputline4test);
+    iss4test = istringstream(inputline4test);
+    List sortedList = NULL;
+    while (iss4test >> temp4test)
+    {
+        InsertToTail(&sortedList, temp4test);
+    }
+    PrintList(sortedList);
+    List result = deleteDuplication(sortedList);
+    PrintList(result);
+ */    //
+
 
     List head = nullptr;
 
