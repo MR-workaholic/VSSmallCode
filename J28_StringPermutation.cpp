@@ -52,6 +52,47 @@ vector<string> Permutation(string str) {
     return results;
 }
 
+void strSwap(string& str, size_t a, size_t b){
+    char temp = str.at(a);
+    str.at(a) = str.at(b);
+    str.at(b) = temp;
+}
+
+vector<string> rePermutation_2(string str, size_t start, size_t end){
+    vector<string> res;
+    if (start == end)
+    {
+        res.push_back(string(1, str.at(start)));
+        return res;
+    }
+    for (size_t i = start; i <= end; i++)
+    {
+        strSwap(str, start, i);
+        vector<string> temp = rePermutation_2(str, start + 1, end);
+        for(auto var : temp)
+        {
+            res.push_back(string(1, str.at(start)) + var);
+        }
+        strSwap(str, start, i);
+    }
+    return res;
+}
+
+vector<string> Permutation_2(string str){
+    vector<string> results;
+    size_t len = str.size();
+    if (len == 0)
+    {
+        return results;
+    }else if (len == 1)
+    {
+        results.push_back(str);
+        return results;
+    }
+    results = rePermutation_2(str, 0, len-1);
+    return results;
+}
+
 int main(int argc, char **argv){
     streambuf* backup;
     ifstream fin;
@@ -63,7 +104,7 @@ int main(int argc, char **argv){
     {
         string inputline;
         getline(cin, inputline);
-        vector<string> results = Permutation(inputline);
+        vector<string> results = Permutation_2(inputline);
         for(auto var : results)
         {
             cout << var << " ";
