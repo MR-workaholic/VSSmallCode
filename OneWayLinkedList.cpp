@@ -438,6 +438,226 @@ List deleteDuplication(List pHead)
     return pHead;
 }
 
+bool removeNode(Pos pNode) {
+    if (pNode == nullptr || pNode->_next == nullptr)
+    {
+        return false;
+    }
+    Pos cur = pNode, pre = nullptr;
+
+    while (cur->_next != nullptr)
+    {
+        cur->_val = cur->_next->_val;
+        pre = cur;
+        cur = cur->_next;
+    }
+    pre->_next = nullptr;
+    delete cur;
+    cur = nullptr;
+    return true;
+}
+
+List partition(List pHead, ElementType x) {
+    if (pHead == nullptr)
+    {
+        return  nullptr;
+    }
+    List minList(nullptr), maxList(nullptr);
+    while (pHead != nullptr)
+    {
+        if (pHead->_val < x)
+        {
+            InsertToTail(&minList, pHead->_val);
+        }else
+        {
+            InsertToTail(&maxList, pHead->_val);
+        }
+        pHead = pHead->_next;
+    }
+    if (minList == nullptr)
+    {
+        return maxList;
+    }
+    Pos p = minList;
+    while (p->_next != nullptr)
+    {
+        p = p->_next;
+    }
+    p->_next = maxList;
+    return minList;
+}
+
+
+List plusAB(List a, List b) {
+    if (a == nullptr)
+    {
+        return b;
+    }else if (b == nullptr)
+    {
+        return a;
+    }
+    ElementType carry(0);
+    Pos pa = a, pb = b;
+    List result(nullptr);
+    while (pa != nullptr || pb != nullptr)
+    {
+        ElementType val(0);
+        if (pa == nullptr)
+        {
+            val = pb->_val + carry;
+            pb = pb->_next;
+        }else if (pb == nullptr)
+        {
+            val = pa->_val + carry;
+            pa = pa->_next;
+        }else
+        {
+            val = pa->_val + pb->_val + carry;
+            pa = pa->_next;
+            pb = pb->_next;
+        }
+
+        if (val > 9)
+        {
+            val -= 10;
+            carry = 1;
+        }else
+        {
+            carry = 0;
+        }
+        InsertToTail(&result, val);
+    }
+
+    if (carry)
+    {
+        InsertToTail(&result, 1);
+    }
+    return result;
+}
+
+int carry(0);
+
+void rePlus2(List a, List b, List* result){
+    if (a == nullptr)
+    {
+        return;
+    }
+    rePlus2(a->_next, b->_next, result);
+    ElementType val(carry);
+    val += (a->_val + b->_val);
+    carry = val > 9 ? 1 : 0;
+    val = val % 10;
+    InsertToHead(result, val);
+}
+
+List plusAB2(List a, List b){
+    if (a == nullptr)
+    {
+        return b;
+    }else if (b == nullptr)
+    {
+        return a;
+    }
+    size_t lena(0), lenb(0);
+    List ca(a), cb(b);
+    while (ca != nullptr)
+    {
+        lena++;
+        ca = ca->_next;
+    }
+    while (cb != nullptr)
+    {
+        lenb++;
+        cb = cb->_next;
+    }
+    List addZeroList, noChangeList;
+    if (lena != lenb)
+    {
+        size_t diff;
+        if (lena > lenb)
+        {
+            addZeroList = b;
+            noChangeList = a;
+            diff = lena - lenb;
+        }else
+        {
+            addZeroList = a;
+            noChangeList = b;
+            diff = lenb - lena;
+        }
+        while (diff > 0)
+        {
+            InsertToHead(&addZeroList, 0);
+            --diff;
+        }
+    }else
+    {
+        addZeroList = a;
+        noChangeList = b;
+    }
+
+    List result(nullptr);
+    rePlus2(addZeroList, noChangeList, &result);
+    if (carry == 1)
+    {
+        InsertToHead(&result, 1);
+    }
+    return result;
+}
+
+Pos rePalindrome(List mlist, size_t length){
+
+    if (length == 1)
+    {
+        return mlist->_next;
+    }else if (length == 0)
+    {
+        return mlist;
+    }
+    Pos ret = rePalindrome(mlist->_next, length-2);
+    if (ret == nullptr)
+    {
+        return ret;
+    }
+    if (mlist->_val == ret->_val)
+    {
+        return ret->_next;
+    }
+    return nullptr;
+}
+
+
+bool isPalindrome(List pHead) {
+    if (pHead == nullptr)
+    {
+        return false;
+    }
+    size_t length(1);
+    Pos p = pHead;
+    while (p->_next != nullptr)
+    {
+        length++;
+        p = p->_next;
+    }
+    if (length == 1)
+    {
+        return true;
+    }
+    Pos sentinel = new Node(pHead->_val + 1); // 加哨兵
+    p->_next = sentinel;
+    Pos result = rePalindrome(pHead, length);
+    bool res(false);
+    if (result == sentinel)
+    {
+        res = true;
+    }
+    p->_next = nullptr;
+    delete sentinel;
+    return res;
+}
+
+
+
 int main(int argc, char ** argv){
     streambuf* backup;
     backup = cin.rdbuf();
@@ -526,6 +746,126 @@ int main(int argc, char ** argv){
     PrintList(result);
  */    //
 
+    //给定一个链表中的某个节点，删除它，只有该节点作为参数
+    // 1 4 2 5 3 6 8 9
+    // 4
+/*     string inputline4test;
+    ElementType temp4test;
+    istringstream iss4test;
+    getline(cin, inputline4test);
+    iss4test = istringstream(inputline4test);
+    List testList = NULL;
+    while (iss4test >> temp4test)
+    {
+        InsertToTail(&testList, temp4test);
+    }
+    PrintList(testList);
+    getline(cin, inputline4test);
+    iss4test = istringstream(inputline4test);
+    iss4test >> temp4test;
+    Pos target = Find(testList, temp4test);
+    cout << removeNode(target) << endl;
+    PrintList(testList);
+ */
+    // 以给定值x为基准将链表分割成两部分，所有小于x的结点排在大于或等于x的结点之前
+    /*
+    4 2 6 4 3 9 1 5
+    3
+     */
+/*     string inputline4test;
+    ElementType temp4test;
+    istringstream iss4test;
+    getline(cin, inputline4test);
+    iss4test = istringstream(inputline4test);
+    List testList = NULL;
+    while (iss4test >> temp4test)
+    {
+        InsertToTail(&testList, temp4test);
+    }
+    PrintList(testList);
+    getline(cin, inputline4test);
+    iss4test = istringstream(inputline4test);
+    iss4test >> temp4test;
+    List result = partition(testList, temp4test);
+    PrintList(result);
+ */
+
+    // A+B 反向存放
+    /*
+    7 1 6
+    5 9 2
+     */
+/*     string inputlineA, inputlineB;
+    ElementType temp4test;
+    istringstream iss4test;
+    getline(cin, inputlineA);
+    getline(cin, inputlineB);
+    List listA(nullptr), listB(nullptr);
+    iss4test = istringstream(inputlineA);
+    while (iss4test >> temp4test)
+    {
+        InsertToTail(&listA, temp4test);
+    }
+    iss4test = istringstream(inputlineB);
+    while (iss4test >> temp4test)
+    {
+        InsertToTail(&listB, temp4test);
+    }
+    PrintList(listA);
+    PrintList(listB);
+    List result = plusAB(listA, listB);
+    PrintList(result);
+ */
+
+    // A+B 正向存放
+    /*
+    6 1 7
+    3 9 5
+    1 2 3 4
+    9 8 7
+    6 1 7
+    2 9 5
+     */
+/*     string inputlineA, inputlineB;
+    ElementType temp4test;
+    istringstream iss4test;
+    getline(cin, inputlineA);
+    getline(cin, inputlineB);
+    List listA(nullptr), listB(nullptr);
+    iss4test = istringstream(inputlineA);
+    while (iss4test >> temp4test)
+    {
+        InsertToTail(&listA, temp4test);
+    }
+    iss4test = istringstream(inputlineB);
+    while (iss4test >> temp4test)
+    {
+        InsertToTail(&listB, temp4test);
+    }
+    PrintList(listA);
+    PrintList(listB);
+    List result = plusAB2(listA, listB);
+    PrintList(result);
+ */
+
+    // 递归方法实现链的回文检测
+    /* 3 3
+    0 1 2 2 1 0
+    0 1 2 3 2 1 0
+    */
+/*     string inputline4test;
+    ElementType temp4test;
+    istringstream iss4test;
+    getline(cin, inputline4test);
+    iss4test = istringstream(inputline4test);
+    List testList(nullptr);
+    while (iss4test >> temp4test)
+    {
+        InsertToTail(&testList, temp4test);
+    }
+    PrintList(testList);
+    cout << isPalindrome(testList) << endl;
+ */
 
     List head = nullptr;
 
