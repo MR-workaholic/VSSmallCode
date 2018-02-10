@@ -1,3 +1,7 @@
+/*
+6 4 2 5 8 9
+2 4 5 6 8 9
+ */
 #include <iostream>
 #include <string>
 #include <sstream>
