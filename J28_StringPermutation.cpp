@@ -105,6 +105,7 @@ int main(int argc, char **argv){
         string inputline;
         getline(cin, inputline);
         vector<string> results = Permutation_2(inputline);
+        inputline = "";
         for(auto var : results)
         {
             cout << var << " ";
