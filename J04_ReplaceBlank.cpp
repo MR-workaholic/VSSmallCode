@@ -65,7 +65,4 @@ int main(int argc, char **argv){
         cout << temp << endl;
         delete[] temp;
     }
-
-
-
 }
