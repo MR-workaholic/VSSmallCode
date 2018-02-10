@@ -1,3 +1,6 @@
+/*
+1 1 1 -1 2 0 2 -1
+ */
 #include <iostream>
 #include <fstream>
 #include <string>
