@@ -115,6 +115,26 @@ bool IsBalanced_Solution(TreeNode* pRoot) {
     return false;
 }
 
+bool ReIsBalanced_Solution(TreeNode* pRoot, int& depth){
+    if (pRoot == NULL)
+    {
+        depth = 0;
+        return true;
+    }
+
+    int leftDepth(0), rightDepth(0);
+    if (ReIsBalanced_Solution(pRoot->left, leftDepth) && ReIsBalanced_Solution(pRoot->right, rightDepth))
+    {
+        int diff = leftDepth - rightDepth;
+        if (diff >= -1 && diff <= 1)
+        {
+            depth = max<int>({leftDepth, rightDepth}) +1;
+            return true;
+        }
+    }
+    return false;
+}
+
 int main(int argc, char **argv){
     streambuf* backup;
     ifstream fin;
@@ -143,6 +163,9 @@ int main(int argc, char **argv){
         }
         TreeNode* tree = reConstructBinaryTree(preorder, inorder);
         cout << IsBalanced_Solution(tree) << endl;
+        int depth(0);
+        cout << ReIsBalanced_Solution(tree, depth) << endl;
+        cout << depth << endl;
 
 
     }
