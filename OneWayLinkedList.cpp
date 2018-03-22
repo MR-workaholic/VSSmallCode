@@ -214,11 +214,8 @@ List Merge(List pHead1, List pHead2){ // 有序链表的合并
             p2->_next = p1->_next;
             p1->_next = p2;
             p2 = temp;
-        }else
-        {
-            p1 = p1->_next;
         }
-
+            p1 = p1->_next;
     }
 
     if (p1->_next == NULL)
