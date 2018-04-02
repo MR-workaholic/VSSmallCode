@@ -43,7 +43,7 @@ TreeNode* reConstructBinaryTree(vector<int> pre, vector<int> vin){
     return result;
 }
 
-void ConvertNode(TreeNode* pNode, TreeNode** pLastMaxNode){
+void ConvertNode(TreeNode* pNode, TreeNode** pLastMaxNode){ // 运用中序遍历的思想，因为二叉搜索树的中序就是排序的数列，先处理左节点，再处理当前节点，再处理右节点
     if (pNode == NULL)
     {
         return ;
@@ -73,7 +73,7 @@ TreeNode* Convert(TreeNode* pRootOfTree)
     TreeNode* pLastMaxNode = NULL;
     ConvertNode(pRootOfTree, &pLastMaxNode);
 
-    TreeNode* result = pLastMaxNode;
+    TreeNode* result = pLastMaxNode; // 为了找到链表的头结点
     while (result->left != NULL)
     {
         result = result->left;
