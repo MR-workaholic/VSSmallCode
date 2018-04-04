@@ -108,7 +108,7 @@ int LastRemaining_Solution_3(int n, int m){
 
 int main(int argc, char ** argv){
     while (true)
-    {
+    { 
         int n, m;
         cin >> n >> m;
         cout << LastRemaining_Solution_3(n, m);
