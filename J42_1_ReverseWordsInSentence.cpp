@@ -48,6 +48,41 @@ string ReverseSentence(string str) {
     return str;
 }
 
+string ReverseSentence_2(string str){
+    size_t len = str.size();
+    if (len == 0)
+    {
+        return str;
+    }
+    ReverseRange(str, 0, len-1);
+    size_t begin(0), end(0);
+    while (true)
+    {
+        if (str.at(begin) == ' ' && str.at(end) == ' ')
+        {
+            ++begin;
+            ++end;
+        }else if (str.at(end) == ' ')
+        {
+            ReverseRange(str, begin, end-1);
+            ++end;
+            begin = end;
+        }else
+        {
+            ++end;
+        }
+        if (end >= len)
+        {
+            if (begin != end)
+            {
+                ReverseRange(str, begin, end-1);
+            }
+            break;
+        }
+    }
+    return str;
+}
+
 int main(int argc, char **argv){
     streambuf* backup;
     ifstream fin;
@@ -61,7 +96,7 @@ int main(int argc, char **argv){
     while (true)
     {
         getline(cin, inputline);
-        string str = ReverseSentence(inputline);
+        string str = ReverseSentence_2(inputline);
         cout << str << endl;
     }
 
