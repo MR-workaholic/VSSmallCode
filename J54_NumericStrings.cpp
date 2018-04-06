@@ -21,7 +21,7 @@ using namespace std;
 bool reIsNumeric(char* str, char* pat){
     if (*str == '\0')
     {
-        if ((*pat == 'd' && *(pat+1) != 'd') || *pat == '.')
+        if ((*pat == 'd' && *(pat+1) != 'd') || *pat == '.') // (*pat == 'd' && *(pat+1) != 'd')就是为了防止只出现一个+/-符号的情况
         {
             return true;
         }
@@ -77,7 +77,7 @@ bool isNumeric(char* string)
     {
         return false;
     }
-    char pat[] = "sdd.desd"; // sdd中的两个d是防止'+'这种情况出现
+    char pat[] = "sdd.desd"; // sdd中的两个d是防止只有一个符号，如'+'这种情况出现
     // char* pat = const_cast<char*>(pattern.c_str());
     return reIsNumeric(string, pat);
 
