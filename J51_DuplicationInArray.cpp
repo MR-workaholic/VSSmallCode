@@ -49,6 +49,48 @@ bool duplicate(int numbers[], int length, int* duplication) {
     return true;
 }
 
+bool duplicate_2(int numbers[], int length, int* duplication){
+    if (length == 0)
+    {
+        return false;
+    }
+    bool result(false);
+    size_t count(0);
+    for (size_t i = 0; i < length;)
+    {
+        if (i == numbers[i])
+        {
+            ++i;
+        }else if(numbers[i] != numbers[numbers[i]])
+        {
+            int temp(numbers[i]);
+            numbers[i] = numbers[numbers[i]];
+            numbers[temp] = temp;
+        }else if (numbers[i] == numbers[numbers[i]])
+        {
+            bool isExist(false);
+            for (size_t j = 0; j < count; j++)
+            {
+                if (duplication[j] == numbers[i])
+                {
+                    isExist = true;
+                    break;
+                }
+            }
+            if (isExist)
+            {
+                ++i;
+                continue;
+            }
+            result = true;
+            duplication[count++] = numbers[i];
+            ++i;
+        }
+    }
+
+
+}
+
 int main(int argc, char **argv){
     streambuf* backup;
     ifstream fin;
@@ -73,7 +115,7 @@ int main(int argc, char **argv){
             numbers[count++] = temp;
         }
         int* result = new int[temp >> 1];
-        bool IsOK = duplicate(numbers, count, result);
+        bool IsOK = duplicate_2(numbers, count, result);
         delete[] numbers;
         numbers = nullptr;
         delete[] result;
