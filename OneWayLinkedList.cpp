@@ -360,6 +360,7 @@ Pos FindFirstCommonNodeWithCounter(List pHead1, List pHead2){
     return p1;
 }
 
+// 删除重复的节点，但是是利用val移动法，比较难懂
 List deleteDuplication(List pHead)
 {
     if (pHead == nullptr)
@@ -371,6 +372,8 @@ List deleteDuplication(List pHead)
     Pos changeIndex = pHead;
     ElementType deleteVal(0);
     bool isNull(true);
+
+    // 寻找不重复的节点放在changeIndex上，然后再删除后面的节点，移动val而不是删除节点！
     while (curIndex != nullptr)
     {
         if (preIndex == nullptr)
@@ -405,6 +408,8 @@ List deleteDuplication(List pHead)
         }
     }
 
+    // 节点的val移动完毕，可以开始删除节点了
+
     Pos deleteNode;
     if (preIndex != nullptr)
     {
@@ -435,6 +440,53 @@ List deleteDuplication(List pHead)
     return pHead;
 }
 
+// 利用二级指针实现重复节点的删除，实现起来比上面的易懂
+void deleteDuplication_2(List* ppHead){
+    if (ppHead == nullptr || *ppHead == nullptr)
+    {
+        return;
+    }
+    Pos preNode(nullptr), deleteNode(nullptr);
+    while (*ppHead != nullptr && (*ppHead)->_next != nullptr)
+    {
+        if ( (*ppHead)->_val == (*ppHead)->_next->_val)
+        {
+            deleteNode = *ppHead; // 标记当前的重复节点
+            while (*ppHead != nullptr && (*ppHead)->_val == deleteNode->_val)
+            {
+                *ppHead = (*ppHead)->_next;  //假如要删除的是首部节点，这个语句可以移动首部哟
+            }
+            // 删除重复节点
+            while (deleteNode != *ppHead)
+            {
+                Pos temp = deleteNode;
+                deleteNode = deleteNode->_next;
+                if (preNode == temp) // 这一句很重要，temp的删除很可能令preNode成为野指针，所以记得将其赋值为nullptr
+                {
+                    preNode = nullptr;
+                }
+                delete temp;
+                temp = nullptr;
+            }
+            // 前一个节点记得重新连接过来
+            if (preNode == nullptr)
+            {
+                preNode = *ppHead;
+            }else
+            {
+                preNode->_next = *ppHead;
+                preNode = *ppHead;
+            }
+        }else
+        {
+            // 前一个节点不与后一个节点相同，可以移动节点了，因为这里的移动，下一次修改*ppHead不会改变首部了
+            preNode = *ppHead;
+            ppHead = &((*ppHead)->_next);
+
+        }
+    }
+}
+
 bool removeNode(Pos pNode) {
     if (pNode == nullptr || pNode->_next == nullptr)
     {
@@ -454,6 +506,7 @@ bool removeNode(Pos pNode) {
     return true;
 }
 
+// 链表的partition算法
 List partition(List pHead, ElementType x) {
     if (pHead == nullptr)
     {
@@ -728,7 +781,7 @@ int main(int argc, char ** argv){
     // 1 1 2 2 3 4 5 5
     // 1 2 3 4 5
     // 1 2 3 3 4 4 5
-/*     string inputline4test;
+    string inputline4test;
     ElementType temp4test;
     istringstream iss4test;
     getline(cin, inputline4test);
@@ -739,9 +792,10 @@ int main(int argc, char ** argv){
         InsertToTail(&sortedList, temp4test);
     }
     PrintList(sortedList);
-    List result = deleteDuplication(sortedList);
-    PrintList(result);
- */    //
+    // List result = deleteDuplication(sortedList);
+    deleteDuplication_2(&sortedList);
+    PrintList(sortedList);
+
 
     //给定一个链表中的某个节点，删除它，只有该节点作为参数
     // 1 4 2 5 3 6 8 9
