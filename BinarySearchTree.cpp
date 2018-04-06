@@ -59,6 +59,7 @@ Tree rMakeEnpty(Tree tree){
     return tree;
 }
 
+/* 中序遍历 */
 void rInorderTraversal(Tree tree){
     if (tree != nullptr)
     {
@@ -108,7 +109,7 @@ void inorderTraversal(Tree tree){
 }
 
 
-
+/* 二叉树找指定值 */
 bool rFind(Tree tree, ElementType x){
     if (tree == nullptr)
     {
@@ -128,6 +129,7 @@ bool rFind(Tree tree, ElementType x){
     }
 }
 
+/* 二叉树找最大值 */
 Pos rFindMax(Tree tree){
     if (tree == nullptr)
     {
@@ -144,6 +146,7 @@ Pos rFindMax(Tree tree){
     }
 }
 
+/* 二叉树找最小值 */
 Pos rFindMin(Tree tree){
     if (tree == nullptr)
     {
