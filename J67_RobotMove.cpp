@@ -55,7 +55,7 @@ void rwBackTracking(vector<vector<char>>& record, int x, int y, Dir dir, const i
     result++;
 
     record[x][y] = 0;
-    for (size_t i = 0; i < 3; i++)
+    for (size_t i = 0; i < 4; i++)
     {
         rwBackTracking(record, x, y, static_cast<Dir>(i), rows, cols, threshold, result);
     }
@@ -85,7 +85,7 @@ int movingCount(int threshold, int rows, int cols)
     }
 
     record[0][0] = 0;
-    for (size_t i = 0; i < 3; i++)
+    for (size_t i = 0; i < 4; i++)
     {
         rwBackTracking(record, 0, 0, static_cast<Dir>(i), rows, cols, threshold, result);
     }
