@@ -129,7 +129,7 @@ Pos FindPrevious(List head, ElementType x){
     }
 }
 
-void Reverse1(List* headPtr){  // 三指针翻转链表
+void Reverse1(List* headPtr) {  // 三指针翻转链表
     List cur, pre, nxt;
     pre = nullptr;
     cur = *headPtr;
@@ -143,7 +143,7 @@ void Reverse1(List* headPtr){  // 三指针翻转链表
     *headPtr = pre;  //很重要，头指针值回去
 }
 
-void Reverse2(List* headPtr){
+void Reverse2(List* headPtr){    
     if (*headPtr == nullptr || (*headPtr)->_next == nullptr)
     {
         return;
