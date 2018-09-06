@@ -44,6 +44,40 @@ bool VerifySquenceOfBST(vector<int> sequence) {
     return reConstructTree(sequence, vin);
 }
 
+bool VerifySquenceOfBST_2(vector<int> sequence){
+    size_t len = sequence.size();
+    if (len == 0)
+    {
+        return true;
+    }
+
+    int rootNode = sequence.at(len-1);
+    vector<int> leftChildren, rightChildren;
+    size_t index(0);
+    for (; index < len - 1; ++index)
+    {
+        if (sequence.at(index) < rootNode)
+        {
+            leftChildren.push_back(sequence.at(index));
+        }else
+        {
+            break;
+        }
+    }
+
+    for (; index < len - 1; ++index)
+    {
+        if (sequence.at(index) > rootNode)
+        {
+            rightChildren.push_back(sequence.at(index));
+        }else
+        {
+            return false;
+        }
+    }
+    return VerifySquenceOfBST_2(leftChildren) && VerifySquenceOfBST_2(rightChildren);
+}
+
 
 
 int main(int argc, char **argv){
@@ -66,5 +100,6 @@ int main(int argc, char **argv){
             record.push_back(temp);
         }
         cout << VerifySquenceOfBST(record) << endl;
+        std::cout << VerifySquenceOfBST_2(record) << '\n';
     }
 }

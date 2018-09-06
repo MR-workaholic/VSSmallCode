@@ -42,6 +42,7 @@ int MoreThanHalfNum_Solution(vector<int> numbers) {
 
     while (true)
     {
+        // 三值找中间数
         mid = left + ((right - left) >> 1);
         int b1 = numbers.at(left) > numbers.at(right) ? left : right;
         int b2 = numbers.at(left) > numbers.at(mid) ? left : right;
@@ -172,6 +173,50 @@ int MoreThanHalfNum_Solution2(vector<int> numbers){
 
 }
 
+
+int MoreThanHalfNum_Solution3(vector<int> numbers){
+    size_t len = numbers.size();
+    if (len == 1 || (len == 2 && numbers.at(0) == numbers.at(1)))
+    {
+        return numbers.at(0);
+    }
+
+    int targetNum = numbers.at(0);
+    size_t timer = 1;
+
+    for (size_t i = 1; i < len; ++i)
+    {
+        if (timer == 0)
+        {
+            targetNum = numbers.at(i);
+            timer = 1;
+        }else
+        {
+            if (targetNum == numbers.at(i))
+            {
+                ++timer;
+            }else
+            {
+                --timer;
+            }
+        }
+    }
+    /* check */
+    size_t count(0);
+    for(auto var : numbers)
+    {
+        if (var == targetNum)
+        {
+            ++count;
+        }
+    }
+    if (count > (len >> 1))
+    {
+        return targetNum;
+    }
+    return -1;
+}
+
 int main(int argc, char ** argv){
     streambuf* backup;
     fstream fin;
@@ -192,6 +237,8 @@ int main(int argc, char ** argv){
         {
             nums.push_back(temp);
         }
-        cout << MoreThanHalfNum_Solution2(nums);
+        cout << MoreThanHalfNum_Solution2(nums) << endl;
+        std::cout << MoreThanHalfNum_Solution3(nums) << '\n';
+        std::cout << MoreThanHalfNum_Solution(nums) << '\n';
     }
 }

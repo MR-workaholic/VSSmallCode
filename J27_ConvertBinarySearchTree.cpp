@@ -43,6 +43,10 @@ TreeNode* reConstructBinaryTree(vector<int> pre, vector<int> vin){
     return result;
 }
 
+/*
+    para: pNode  只需要修改其左右指针即可，不用用二级指针
+    para: pLastMaxNode  由于需要将其带出去上一层，因此需要二级指针
+ */
 void ConvertNode(TreeNode* pNode, TreeNode** pLastMaxNode){ // 运用中序遍历的思想，因为二叉搜索树的中序就是排序的数列，先处理左节点，再处理当前节点，再处理右节点
     if (pNode == NULL)
     {

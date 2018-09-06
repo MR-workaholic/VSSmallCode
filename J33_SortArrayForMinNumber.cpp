@@ -102,6 +102,35 @@ string PrintMinNumber2(vector<int> numbers) {
     return result;
 }
 
+string PrintMinNumber3(vector<int> numbers) {
+    size_t len = numbers.size();
+    if (len == 0)
+    {
+        return "";
+    }else if(len == 1)
+    {
+        return to_string(numbers.at(0));
+    }
+    vector<string> strNumbers;
+    for(auto var : numbers)
+    {
+        strNumbers.push_back(to_string(var));
+    }
+    sort(strNumbers.begin(), strNumbers.end());
+    string res("");
+    do
+    {
+        string temp("");
+        for(auto var : strNumbers)
+        {
+            temp += var;
+        }
+        res = Compare(res, temp);
+    } while(next_permutation(strNumbers.begin(), strNumbers.end()));
+
+    return res;
+}
+
 int main(int argc, char **argv){
     streambuf* backup;
     ifstream fin;
@@ -123,6 +152,7 @@ int main(int argc, char **argv){
             numbers.push_back(temp);
         }
         cout << PrintMinNumber2(numbers) << endl;
+        std::cout << PrintMinNumber3(numbers) << '\n';
     }
 
 }
