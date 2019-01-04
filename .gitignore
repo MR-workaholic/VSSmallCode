@@ -4,3 +4,5 @@ test.cpp
 *.exe
 test2.cpp
 data.in
+*.in
+*.out
